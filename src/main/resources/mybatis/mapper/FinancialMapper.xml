@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="com.x3408.stumanage.mapper.FinancialMapper">
+    <resultMap id="financial" type="com.x3408.stumanage.entity.Financial">
+        <id property="id" column="id"/>
+        <result column="accommodation" property="accommodation"/>
+        <result column="trainingPay" property="trainingPay"/>
+        <result column="tuitionPayment" property="tuitionPayment"/>
+        <association property="dept" javaType="com.x3408.stumanage.entity.Dept" fetchType="eager">
+            <result column="studentID" property="studentID"/>
+            <association property="freshman" javaType="com.x3408.stumanage.entity.Freshman" fetchType="eager">
+                <result column="college" property="college"/>
+                <result column="name" property="name"/>
+            </association>
+        </association>
+    </resultMap>
+    <select id="getFinancial" resultMap="financial">
+        select f.*,d.studentID,d.college,d.name from financial_info f
+        INNER JOIN (select d.id,d.studentID,m.college,m.name from dept_info d inner join freshman_info m on d.freshmanId = m.id ) d
+        on f.deptId=d.id where college=#{college}
+        <if test="financial.tuitionPayment != null">
+            and f.tuitionPayment = #{financial.tuitionPayment}
+        </if>
+        <if test="financial.trainingPay != null">
+            and f.trainingPay = #{financial.trainingPay}
+        </if>
+        <if test="financial.accommodation != null">
+            and f.accommodation = #{financial.accommodation}
+        </if>
+    </select>
+
+</mapper>

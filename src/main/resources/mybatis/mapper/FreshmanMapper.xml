@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x3408.stumanage.mapper.FreshmanMapper">
+
+    <!-- id:statement的id 或者叫做sql的id-->
+    <!-- parameterType:声明输入参数的类型 -->
+    <!-- resultType:声明输出结果的类型，应该填写pojo的全路径 -->
+    <!-- #{}：输入参数的占位符，相当于jdbc的？ -->
+    <select id="getFreshman" parameterType="com.x3408.stumanage.entity.Freshman"
+            resultType="com.x3408.stumanage.entity.Freshman">
+        SELECT * FROM freshman_info
+        <where>
+            <if test="identity != null">
+                identity = #{identity}
+            </if>
+            <if test="country != null">
+                AND country = #{country}
+            </if>
+            <if test="phone != null">
+                AND phone = #{phone}
+            </if>
+        </where>
+    </select>
+
+</mapper>

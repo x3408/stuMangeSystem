@@ -1,0 +1,84 @@
+spring:
+      profiles:
+            active: default
+---
+spring:
+      http:
+            encoding:
+                  charset: UTF-8
+                  enabled: true
+                  force: true
+      profiles: default
+      datasource:
+            username: root
+            password: xc19961016
+            driver-class-name: com.mysql.jdbc.Driver
+            url: jdbc:mysql://localhost:3306/student_info?serverTimezone=UTC
+            type: com.alibaba.druid.pool.DruidDataSource
+            initialSize: 5
+            minIdle: 5
+            maxActive: 20
+            maxWait: 60000
+            timeBetweenEvictionRunsMillis: 60000
+            minEvictableIdleTimeMillis: 300000
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            poolPreparedStatements: true
+            durid:
+                  filters: stat,wall,log4j
+            maxPoolPreparedStatementPerConnectionSize: 20
+            useGlobalDataSourceStat: true
+            connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+mybatis:
+      type-aliases-package: tk.mybatis.springboot.model
+      config-location: classpath:mybatis/mybatis-config.xml
+      mapper-locations: classpath:mybatis/mapper/*.xml
+pagehelper:
+      helperDialect: mysql
+      reasonable: true
+      supportMethodsArguments: true
+      params: count=countSql
+---
+spring:
+      profiles: prod
+      datasource:
+            username: root
+            password: 123456
+            driver-class-name: com.mysql.jdbc.Driver
+            url: jdbc:mysql://localhost:3306/student_info?serverTimezone=UTC
+            type: com.alibaba.druid.pool.DruidDataSource
+            initialSize: 5
+            minIdle: 5
+            maxActive: 20
+            maxWait: 60000
+            timeBetweenEvictionRunsMillis: 60000
+            minEvictableIdleTimeMillis: 300000
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            poolPreparedStatements: true
+            durid:
+                  filters: stat,wall,log4j
+            maxPoolPreparedStatementPerConnectionSize: 20
+            useGlobalDataSourceStat: true
+            connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      http:
+            encoding:
+                  charset: UTF-8
+                  enabled: true
+                  force: true
+mybatis:
+      type-aliases-package: tk.mybatis.springboot.model
+      config-location: classpath:mybatis/mybatis-config.xml
+      mapper-locations: classpath:mybatis/mapper/*.xml
+pagehelper:
+      helperDialect: mysql
+      reasonable: true
+      supportMethodsArguments: true
+      params: count=countSql
+server:
+      tomcat:
+            uri-encoding: utf-8
