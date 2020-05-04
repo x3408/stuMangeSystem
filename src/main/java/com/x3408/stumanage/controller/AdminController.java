@@ -19,7 +19,7 @@ public class AdminController {
                             @RequestParam("password") String password) {
         Admin admin = adminService.login(username, password);
         if (admin != null) {
-            return ResultUtil.successLogin(admin.getIsAdmin());
+            return ResultUtil.success(admin);
         } else {
             return ResultUtil.failLogin();
         }

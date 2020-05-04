@@ -30,7 +30,7 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     @Override
-    public Integer addFinancial(Integer id) {
-        return financialMapper.addFinancial(id);
+    public Integer addFinancial(Financial financial) {
+        return financialMapper.addFinancial(financial);
     }
 }

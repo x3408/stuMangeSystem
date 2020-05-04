@@ -1,12 +1,11 @@
 package com.x3408.stumanage.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.x3408.stumanage.entity.Admin;
-import com.x3408.stumanage.entity.Dept;
-import com.x3408.stumanage.entity.Freshman;
-import com.x3408.stumanage.entity.FreshmanData;
+import com.x3408.stumanage.controller.DormitoryController;
+import com.x3408.stumanage.entity.*;
 import com.x3408.stumanage.mapper.FreshmanMapper;
 import com.x3408.stumanage.service.DeptService;
+import com.x3408.stumanage.service.DormitoryService;
 import com.x3408.stumanage.service.FinancialService;
 import com.x3408.stumanage.service.FreshmanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,8 @@ public class FreshmanServiceImpl implements FreshmanService {
     DeptService deptService;
     @Autowired
     FinancialService financialService;
+    @Autowired
+    DormitoryService dormitoryService;
 
     @Override
     public List<Freshman> getFreshman(Freshman freshman, Integer currentPage) {
@@ -41,11 +42,14 @@ public class FreshmanServiceImpl implements FreshmanService {
 
     @Override
     public Integer addFreshman(Freshman freshman) {
-        freshmanMapper.addFreshman(freshman);
         Dept dept = new Dept();
+        Financial financial = new Financial();
+        freshmanMapper.addFreshman(freshman);
         dept.setFreshman(freshman);
         deptService.addDept(dept);
-        financialService.addFinancial(dept.getId());
+        financial.setDept(dept);
+        financialService.addFinancial(financial);
+        dormitoryService.addDormitory(financial.getId());
         return 1;
     }
 

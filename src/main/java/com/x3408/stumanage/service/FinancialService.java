@@ -11,5 +11,5 @@ public interface FinancialService {
 
     Integer delFinancial(Integer id);
 
-    Integer addFinancial(Integer id);
+    Integer addFinancial(Financial financial);
 }

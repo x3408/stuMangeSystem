@@ -16,10 +16,10 @@
                 identity = #{identity}
             </if>
             <if test="country != null">
-                AND country = #{country}
+                country = #{country}
             </if>
             <if test="phone != null">
-                AND phone = #{phone}
+                phone = #{phone}
             </if>
         </where>
     </select>

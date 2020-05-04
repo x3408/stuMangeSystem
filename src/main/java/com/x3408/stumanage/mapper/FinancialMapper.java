@@ -1,10 +1,7 @@
 package com.x3408.stumanage.mapper;
 
 import com.x3408.stumanage.entity.Financial;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +18,7 @@ public interface FinancialMapper {
     @Delete("delete from financial_info where id=#{id}")
     Integer delFinancial(Integer id);
 
-    @Insert("insert into financial_info(deptId) value(#{deptId})")
-    Integer addFinancial(Integer deptId);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Insert("insert into financial_info(deptId) value(#{dept.id})")
+    Integer addFinancial(Financial financial);
 }
