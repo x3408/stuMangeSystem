@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="com.x3408.stumanage.mapper.DormitoryMapper">
+    <resultMap id="dormitory" type="com.x3408.stumanage.entity.Dormitory">
+        <id property="id" column="id"/>
+        <result column="dormitoryNo" property="dormitoryNo"/>
+        <result column="dormitoryType" property="dormitoryType"/>
+        <association property="financial" javaType="com.x3408.stumanage.entity.Financial" fetchType="eager">
+            <result column="accommodation" property="accommodation"/>
+            <result column="trainingPay" property="trainingPay"/>
+            <result column="tuitionPayment" property="tuitionPayment"/>
+            <association property="dept" javaType="com.x3408.stumanage.entity.Dept" fetchType="eager">
+                <result column="studentID" property="studentID"/>
+                <result column="profession" property="profession"/>
+                <association property="freshman" javaType="com.x3408.stumanage.entity.Freshman" fetchType="eager">
+                    <result column="name" property="name"/>
+                    <result column="gender" property="gender"/>
+                    <result column="college" property="college"/>
+                </association>
+            </association>
+        </association>
+    </resultMap>
+    <select id="getDormitory" resultMap="dormitory">
+        select dmt.*,f.profession,f.studentID,f.name,f.gender,f.college from dormitory_info dmt inner join
+        (select fin.id,d.profession,d.studentID,d.name,d.gender,d.college from financial_info fin inner join
+        (select d.id,d.profession,d.studentID,m.name,m.gender,m.college from dept_info d inner join freshman_info m on d.freshmanId=m.id) d
+        on fin.deptId=d.id) f on dmt.financialId=f.id
+        <where>
+            <if test="dormitory.dormitoryNo != null">
+                f.tuitionPayment = #{financial.tuitionPayment}
+            </if>
+            <if test="dormitory.dormitoryType != null">
+                f.trainingPay = #{financial.trainingPay}
+            </if>
+        </where>
+    </select>
+
+</mapper>
